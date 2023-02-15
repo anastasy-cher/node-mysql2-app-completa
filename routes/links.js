@@ -26,6 +26,7 @@ router.post('/add', async (req, res) => {
 
   // console.log(newLink)
   await pool.query('INSERT INTO links SET ?', [newLink])
+  req.flash('success', 'Ruta añadida')
   res.redirect('/links')
 })
 
@@ -33,6 +34,8 @@ router.get('/delete/:id', async (req, res) => {
   // console.log(req.params.id)
   const { id } = req.params
   await pool.query('DELETE FROM links WHERE id = ?', [ id ])
+  req.flash('success', 'Ruta eliminada')
+
   res.redirect('/links')
 })
 
@@ -40,6 +43,7 @@ router.get('/edit/:id', async (req, res) => {
   // console.log(req.params.id)
   const { id } = req.params
   const [ link ] = await pool.query('SELECT * FROM links WHERE id = ?', [ id ])
+
   console.log(link)
   // pasamos el  link al edir.hbs
   res.render('links/edit', { link:link[0]})
@@ -55,6 +59,8 @@ router.post('/edit/:id', async (req, res) => {
   }
   // console.log(newLink)
   await pool.query('UPDATE links SET ? WHERE id = ?',[newLink, id])
+  req.flash('success', 'Ruta editada')
+
   res.redirect('/links')
 })
 

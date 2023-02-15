@@ -9,6 +9,11 @@ const indexRouter = require('./routes/index');
 const linksRouter = require('./routes/links');
 const authentificationRouter = require('./routes/authentification');
 
+const flash = require('connect-flash')
+const session = require('express-session')
+const smysql = require('express-mysql-session')
+const { database } = require('./keys')
+
 
 const app = express();
 
@@ -23,6 +28,18 @@ app.engine('.hbs', engine({
 
 }))
 app.set('view engine', '.hbs');
+
+// antes de flash hacemos uso de sesiones
+app.use(session({
+  secret: 'patata',
+  resave: false,
+  saveUninitialized: false,
+  store: new smysql(database)
+}))
+
+// usamos flash
+app.use(flash())
+
 //middlewares
 app.use(logger('dev'));
 app.use(express.json());
@@ -31,8 +48,10 @@ app.use(cookieParser());
 
 //globales
 app.use( (req,res,next) => {
+  app.locals.success = req.flash('success')
   next()
 })
+
 //rutas
 app.use('/', indexRouter);
 app.use('/links', linksRouter);
