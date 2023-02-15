@@ -1,0 +1,29 @@
+<div class="container p-4">
+    <div class="row">
+        {{!-- es un for; iterador - links --}}
+        {{#each links}}
+        <div class="col-md-3">
+            <div class="div card text-center">
+                <div class="card-body">
+                    <a href="{{ this.url }}" target="_blank">
+        {{!-- recorremos links, que pasamos el links.js --}}
+                        <h3 class="card-title text-uppercase">{{ this.title }}</h3>
+                    </a>
+                        <p class="m-2">{{ this.descripcion }}</p>
+                        <p class="m-2">{{ timeago created_at }}</p>
+                        <a href="/links/delete/{{ this.id }}" class="btn btn-danger">Eliminar</a>
+                        <a href="/links/edit/{{ this.id }}" class="btn btn-secondary">Editar</a>
+                </div>
+            </div>
+        </div>
+        {{ else }}
+        <div class="col-md-4 mx-auto">
+            <div class="card card-body text-center">
+                <p>No hay rutas guardadas aun</p>
+                <a href="/links/add">Guardar ruta</a>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>
