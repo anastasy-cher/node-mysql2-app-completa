@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport')
 
 /* GET users listing. */
 router.get('/signup', function(req, res, next) {
@@ -7,10 +8,16 @@ router.get('/signup', function(req, res, next) {
   // res.send('authen lo que sea')
 });
 
-router.post('/signup', function(req, res, next) {
-  console.log(req.body)
-  
-  res.send('authen recibido');
-});
+router.post('/signup', passport.authenticate('local.signup', {
 
+  successRedirect: '/profile',
+  failureRedirect: '/signup',
+  failureFlash: true
+})) 
+  
+
+
+router.get('/profile', (req, res) => {
+  res.send('Tu pagina')
+})
 module.exports = router;
