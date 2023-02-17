@@ -8,7 +8,7 @@ const {isLoggerIn} = require('../lib/auth')
 
 /* GET users listing. */
 router.get('/', isLoggerIn, async (req, res, next) => {
-  const [ links ] = await pool.query('SELECT * FROM links')
+  const [ links ] = await pool.query('SELECT * FROM links WHERE user_id = ?',[req.user.id])
   console.log(links)
   res.render('links/list', { links })
   
@@ -23,7 +23,8 @@ router.post('/add',isLoggerIn, async (req, res) => {
   const newLink = {
     title,
     url,
-    descripcion
+    descripcion,
+    user_id: req.user.id
   }
 
   // console.log(newLink)
