@@ -4,7 +4,7 @@ const pool = require('../database')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send('Landing Link App Page ')
+  res.render('index')
 });
 
 module.exports = router;
